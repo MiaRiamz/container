@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Table Container</title>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            background-color: sienna;
+        }
+        #container {
+            width: 400px;
+            height: 200px;
+            background-color: #fff;
+            position: absolute;
+            cursor: move; /* Change the cursor to a move cursor */
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: skyblue;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>City</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Doe</td>
+                    <td>30</td>
+                    <td>New York</td>
+                </tr>
+                <tr>
+                    <td>Jane Doe</td>
+                    <td>25</td>
+                    <td>Los Angeles</td>
+                </tr>
+                <tr>
+                    <td>Bob Smith</td>
+                    <td>40</td>
+                    <td>Chicago</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        let isDown = false;
+        let offset = [0, 0];
+
+        container.addEventListener('mousedown', (event) => {
+            if (event.button === 0) { // Only respond to left mouse button
+                isDown = true;
+                offset = [
+                    container.offsetLeft - event.clientX,
+                    container.offsetTop - event.clientY
+                ];
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+
+        document.addEventListener('mousemove', (event) => {
+            if (isDown) {
+                const x = event.clientX + offset[0];
+                const y = event.clientY + offset[1];
+
+                // Update the position of the container
+                container.style.left = `${x}px`;
+                container.style.top = `${y}px`;
+            }
+        });
+    </script>
+</body>
+</html>
